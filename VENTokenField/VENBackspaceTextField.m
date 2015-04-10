@@ -35,4 +35,12 @@
     return YES;
 }
 
+
+#pragma mark - FrameAccessor replacements
+
+- (CGFloat)y
+{
+    return self.frame.origin.y;
+}
+
 @end

@@ -33,4 +33,5 @@
 
 @property (weak, nonatomic) id<VENBackspaceTextFieldDelegate> delegate;
 
+- (CGFloat)y;
 @end

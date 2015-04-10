@@ -30,4 +30,7 @@
 
 - (void)setTitleText:(NSString *)text;
 
+- (CGFloat)height;
+
+- (CGFloat)width;
 @end

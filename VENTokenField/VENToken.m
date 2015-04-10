@@ -83,4 +83,17 @@
     }
 }
 
+
+#pragma mark - FrameAccessor replacements
+
+- (CGFloat)height
+{
+    return self.frame.size.height;
+}
+
+- (CGFloat)width
+{
+    return self.frame.size.width;
+}
+
 @end

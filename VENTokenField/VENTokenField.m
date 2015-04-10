@@ -22,7 +22,6 @@
 
 #import "VENTokenField.h"
 
-#import <FrameAccessor/FrameAccessor.h>
 #import "VENToken.h"
 #import "VENBackspaceTextField.h"
 
@@ -266,7 +265,7 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
 
 - (void)layoutCollapsedLabelWithCurrentX:(CGFloat *)currentX
 {
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(*currentX, CGRectGetMinY(self.toLabel.frame), self.width - *currentX - self.horizontalInset, self.toLabel.height)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(*currentX, CGRectGetMinY(self.toLabel.frame), self.width - *currentX - self.horizontalInset, self.toLabel.frame.size.height)];
     label.font = [UIFont fontWithName:@"HelveticaNeue" size:15.5];
     label.text = [self collapsedText];
     label.textColor = self.colorScheme;
@@ -360,9 +359,13 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
         _toLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _toLabel.textColor = self.toLabelTextColor;
         _toLabel.font = [UIFont fontWithName:@"HelveticaNeue" size:15.5];
-        _toLabel.x = 0;
+        CGRect frame = _toLabel.frame;
+        frame.origin.x = 0;
+        _toLabel.frame = frame;
         [_toLabel sizeToFit];
-        [_toLabel setHeight:[self heightForToken]];
+        frame = _toLabel.frame;
+        frame.size.height = [self heightForToken];
+        _toLabel.frame = frame;
     }
     if (![_toLabel.text isEqualToString:_toLabelText]) {
         _toLabel.text = _toLabelText;
@@ -558,6 +561,26 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
         }
         [self setCursorVisibility];
     }
+}
+
+
+#pragma mark - FrameAccessor replacements
+
+- (CGFloat)height
+{
+    return self.frame.size.height;
+}
+
+- (CGFloat)width
+{
+    return self.frame.size.width;
+}
+
+- (void)setHeight:(CGFloat)newHeight
+{
+    CGRect newFrame = self.frame;
+    newFrame.size.height = newHeight;
+    self.frame = newFrame;
 }
 
 @end
