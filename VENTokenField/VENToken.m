@@ -32,7 +32,7 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
+    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
     if (self) {
         [self setUpInit];
     }
@@ -52,6 +52,7 @@
 {
     self.titleLabel.text = text;
     self.titleLabel.textColor = self.colorScheme;
+    self.titleLabel.font = self.font;
     [self.titleLabel sizeToFit];
     self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetMaxX(self.titleLabel.frame) + 3, CGRectGetHeight(self.frame));
     [self.titleLabel sizeToFit];
@@ -71,6 +72,11 @@
     _colorScheme = colorScheme;
     self.titleLabel.textColor = self.colorScheme;
     [self setHighlighted:_highlighted];
+}
+
+- (void)setFont:(UIFont *)font {
+    _font = font;
+    [self setTitleText:self.titleLabel.text];
 }
 
 
