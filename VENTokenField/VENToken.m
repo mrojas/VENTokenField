@@ -23,70 +23,79 @@
 #import "VENToken.h"
 
 @interface VENToken ()
-@property (strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
-@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) IBOutlet UIView *backgroundView;
+@property(strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
+@property(strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property(strong, nonatomic) IBOutlet UIView *backgroundView;
 @end
 
 @implementation VENToken
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [[[NSBundle bundleForClass:[self class]] loadNibNamed:NSStringFromClass([self class]) owner:self options:nil] firstObject];
-    if (self) {
-        [self setUpInit];
-    }
-    return self;
+- (id)initWithFrame:(CGRect)frame {
+  self = [[[NSBundle bundleForClass:[self class]]
+      loadNibNamed:NSStringFromClass([self class])
+             owner:self
+           options:nil] firstObject];
+  if (self) {
+    [self setUpInit];
+  }
+  return self;
 }
 
-- (void)setUpInit
-{
-    self.backgroundView.layer.cornerRadius = 5;
-    self.tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapToken:)];
-    self.colorScheme = [UIColor blueColor];
-    self.titleLabel.textColor = self.colorScheme;
-    [self addGestureRecognizer:self.tapGestureRecognizer];
+- (void)setUpInit {
+  self.backgroundView.layer.cornerRadius = 5;
+  self.tapGestureRecognizer =
+      [[UITapGestureRecognizer alloc] initWithTarget:self
+                                              action:@selector(didTapToken:)];
+  self.colorScheme = [UIColor blueColor];
+  self.titleLabel.textColor = self.colorScheme;
+  [self addGestureRecognizer:self.tapGestureRecognizer];
 }
 
-- (void)setTitleText:(NSString *)text
-{
-    self.titleLabel.text = text;
-    self.titleLabel.textColor = self.colorScheme;
-    self.titleLabel.font = self.font;
-    [self.titleLabel sizeToFit];
-    self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame), CGRectGetMaxX(self.titleLabel.frame) + 3, CGRectGetHeight(self.frame));
-    [self.titleLabel sizeToFit];
+- (void)setTitleText:(NSString *)text {
+  self.titleLabel.text = text;
+  self.titleLabel.textColor = [self customTextColor];
+  self.titleLabel.font = self.font;
+  [self.titleLabel sizeToFit];
+  self.frame = CGRectMake(CGRectGetMinX(self.frame), CGRectGetMinY(self.frame),
+                          CGRectGetMaxX(self.titleLabel.frame) + 3,
+                          CGRectGetHeight(self.frame));
+  [self.titleLabel sizeToFit];
 }
 
-- (void)setHighlighted:(BOOL)highlighted
-{
-    _highlighted = highlighted;
-    UIColor *textColor = highlighted ? [UIColor whiteColor] : self.colorScheme;
-    UIColor *backgroundColor = highlighted ? self.colorScheme : [UIColor clearColor];
-    self.titleLabel.textColor = textColor;
-    self.backgroundView.backgroundColor = backgroundColor;
+- (void)setHighlighted:(BOOL)highlighted {
+  _highlighted = highlighted;
+  UIColor *textColor =
+      highlighted ? [UIColor whiteColor] : [self customTextColor];
+  UIColor *backgroundColor =
+      highlighted ? self.colorScheme : [UIColor clearColor];
+  self.titleLabel.textColor = textColor;
+  self.backgroundView.backgroundColor = backgroundColor;
 }
 
-- (void)setColorScheme:(UIColor *)colorScheme
-{
-    _colorScheme = colorScheme;
-    self.titleLabel.textColor = self.colorScheme;
-    [self setHighlighted:_highlighted];
+- (void)setColorScheme:(UIColor *)colorScheme {
+  _colorScheme = colorScheme;
+  self.titleLabel.textColor = [self customTextColor];
+  [self setHighlighted:_highlighted];
 }
 
 - (void)setFont:(UIFont *)font {
-    _font = font;
-    [self setTitleText:self.titleLabel.text];
+  _font = font;
+  [self setTitleText:self.titleLabel.text];
 }
-
 
 #pragma mark - Private
 
-- (void)didTapToken:(UITapGestureRecognizer *)tapGestureRecognizer
-{
-    if (self.didTapTokenBlock) {
-        self.didTapTokenBlock();
-    }
+- (void)didTapToken:(UITapGestureRecognizer *)tapGestureRecognizer {
+  if (self.didTapTokenBlock) {
+    self.didTapTokenBlock();
+  }
+}
+
+- (UIColor *)customTextColor {
+  return [UIColor colorWithRed:74.0 / 255.0
+                         green:74.0 / 255.0
+                          blue:74.0 / 255.0
+                         alpha:1.0];
 }
 
 @end
