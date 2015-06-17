@@ -36,7 +36,6 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
 
 @interface VENTokenField () <VENBackspaceTextFieldDelegate>
 
-@property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) NSMutableArray *tokens;
 @property (assign, nonatomic) CGFloat originalHeight;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
