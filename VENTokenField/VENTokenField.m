@@ -529,6 +529,10 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
 {
     if (textField == self.inputTextField) {
         [self unhighlightAllTokens];
+         NSArray *highlightedTokens = [self.tokens filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(VENToken *evaluatedObject, NSDictionary *bindings) {
+            return !evaluatedObject.highlighted;
+        }]];
+        [self didTapToken:highlightedTokens.lastObject];
     }
 }
 
